@@ -29,9 +29,20 @@ CAMPAIGNS = {
 # Dictionary to store the data received from the addon
 CYRODIIL_DATA = {}
 
+from flask import Flask, request, jsonify
+
+app = Flask(__name__)
+
 @app.route('/api/receive-map-data', methods=['POST'])
 def receive_map_data():
-    return receive_eso_addon_data()
+    data = request.get_json()
+    if data:
+        # Process the received data
+        print("Received data:", data)
+        # Additional processing or rendering logic goes here
+        return jsonify({"success": True})
+    else:
+        return jsonify({"error": "No data received"}), 400
 
 @app.route('/')
 def get_eso_map_data():
