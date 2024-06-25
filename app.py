@@ -1,7 +1,8 @@
-from flask import Flask, jsonify, request
-import TeamSekaarCyrodiilMap
+from flask import Flask, jsonify
+from eso_addon_data import receive_eso_addon_data, get_eso_addon_data
 
 app = Flask(__name__)
+
 
 # Alliance IDs and names
 ALLIANCES = {
@@ -25,18 +26,12 @@ CYRODIIL_DATA = {}
 
 @app.route('/api/receive-map-data', methods=['POST'])
 def receive_map_data():
-    data = request.get_json()
-    campaign_id = data.get('campaignId')
-    if campaign_id in CAMPAIGNS:
-        campaign_name = CAMPAIGNS[campaign_id]
-        CYRODIIL_DATA[campaign_name] = data
-        return jsonify({'message': 'Data received successfully'}), 200
-    else:
-        return jsonify({'error': 'Invalid campaign ID'}), 400
+    return receive_eso_addon_data()
 
-@app.route('/api/get-map-data', methods=['GET'])
-def get_map_data():
-    return jsonify(CYRODIIL_DATA)
+@app.route('/')
+def get_eso_map_data():
+    eso_data = get_eso_addon_data()
+    return jsonify(eso_data)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()
