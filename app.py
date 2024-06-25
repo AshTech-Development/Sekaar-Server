@@ -1,6 +1,11 @@
 from flask import Flask, jsonify
 from eso_addon_data import receive_eso_addon_data, get_eso_addon_data
 
+import logging
+
+logging.basicConfig(level=logging.DEBUG)
+logger = logging.getLogger(__name__)
+
 app = Flask(__name__)
 
 
