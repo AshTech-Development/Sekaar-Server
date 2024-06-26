@@ -35,15 +35,17 @@ app = Flask(__name__)
 
 @app.route('/api/receive-map-data', methods=['POST'])
 def receive_map_data():
-    data = request.get_json()
+    data = request.get_data()
     if data:
-        # Process the received data
         print("Received data:", data)
-        # Additional processing or rendering logic goes here
-        return jsonify({"success": True})
+        # Process the received data
+        # ...
+        return "Data received successfully", 200
     else:
-        return jsonify({"error": "No data received"}), 400
+        return "No data received", 400
 
+if __name__ == '__main__':
+    app.run()
 @app.route('/')
 def get_eso_map_data():
     eso_data = get_eso_addon_data()
