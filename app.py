@@ -18,6 +18,7 @@ class CyrodiilData(db.Model):
 @app.route('/api/receive-map-data', methods=['POST'])
 def receive_data():
     data = request.get_json()
+    print("Received data:", data)  # Debugging print statement
     if data:
         new_data = CyrodiilData(data=str(data))  # Ensure data is stored as a string
         db.session.add(new_data)
@@ -28,6 +29,8 @@ def receive_data():
 @app.route('/api/get-map-data', methods=['GET'])
 def get_map_data():
     results = CyrodiilData.query.order_by(CyrodiilData.timestamp.desc()).all()
+    for entry in results:
+        print("Stored data:", entry.data)  # Debugging print statement
     return jsonify([{
         'timestamp': entry.timestamp,
         'data': entry.data
